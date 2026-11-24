@@ -16,9 +16,14 @@ npm-debug.log*
 # env
 .env*
 
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
 
 # vercel
 .vercel
+
+# maplibre worker (lo copia postinstall)
+public/maplibre-gl-worker.mjs
+
