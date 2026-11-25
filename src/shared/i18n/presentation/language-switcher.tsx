@@ -7,12 +7,12 @@ export function LanguageSwitcher() {
     const { locale, setLocale, m } = useI18n();
 
     return (
-        <div className="absolute bottom-4 left-4 z-10 rounded-lg bg-white/95 px-3 py-2 shadow-lg backdrop-blur">
+        <div className="rounded-lg bg-[#fbf1df]/95 px-3 py-2 shadow-sm backdrop-blur">
             <select
                 aria-label={m.language.label}
                 value={locale}
                 onChange={(event) => setLocale(event.target.value as Locale)}
-                className="bg-transparent text-xs text-neutral-800 outline-none"
+                className="bg-transparent text-xs text-[#2b1a10]/85 outline-none"
             >
                 {SUPPORTED_LOCALES.map((code) => (
                     <option key={code} value={code}>

@@ -7,6 +7,7 @@ export const en = {
             "We use your location to show the closest restaurants. We only ask while you're using the app.",
         button: "Use my location",
         searching: "Finding your location…",
+        retry: "Try again",
     },
     errors: {
         denied: "Permission wasn't granted. Enable it in your browser and try again.",
@@ -18,6 +19,14 @@ export const en = {
     },
     search: {
         placeholder: "Search restaurants",
+    },
+    options: {
+        title: "Options",
+        open: "Open options",
+        close: "Close options",
+        account: "My account",
+        ranking: "Top-rated ranking",
+        comingSoon: "Coming soon",
     },
     event: {
         text: "There's an event nearby, see the details in",

@@ -32,6 +32,8 @@ type MapLibreModule = typeof import("maplibre-gl");
 
 const ROUTE_SOURCE_ID = "foodmap-route";
 const ROUTE_LAYER_ID = "foodmap-route-line";
+const TILE_ORIGIN = "https://tiles.openfreemap.org";
+const TILE_PROXY_PATH = "/api/tiles";
 
 const MARKER_COLORS: Record<string, string> = {
     restaurant: "#f59e0b",
@@ -116,7 +118,7 @@ function syncRoute(map: MapLibreMap, route: MapRoute | null) {
             type: "line",
             source: ROUTE_SOURCE_ID,
             layout: { "line-cap": "round", "line-join": "round" },
-            paint: { "line-color": "#b8d4bb", "line-width": 4, "line-opacity": 0.9 },
+            paint: { "line-color": "#b45309", "line-width": 4, "line-opacity": 0.9 },
         });
     } else {
         (source as GeoJSONSource).setData(data);
@@ -174,6 +176,13 @@ export function MapView({
                 center: MAP_CONFIG.center,
                 zoom: MAP_CONFIG.zoom,
                 attributionControl: { compact: true },
+                // Todo el tráfico de mapa pasa por nuestro dominio: ni estilo, ni tiles,
+                // ni sprites ni glyphs exponen tiles.openfreemap.org al navegador.
+                transformRequest: (url) => ({
+                    url: url.startsWith(`${TILE_ORIGIN}/`)
+                        ? `${TILE_PROXY_PATH}${url.slice(TILE_ORIGIN.length)}`
+                        : url,
+                }),
             });
 
             instance.addControl(new maplibregl.NavigationControl(), "top-right");
@@ -277,13 +286,13 @@ export function MapView({
             <div ref={containerRef} className="h-full w-full" />
             {mapError ? (
                 <div
-                    className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-white/90 p-6 text-center"
+                    className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-[#fbf1df]/95 p-6 text-center"
                     role="alert"
                 >
-                    <p className="max-w-xs text-sm text-slate-700">{m.map.loadError}</p>
+                    <p className="max-w-xs text-sm text-[#3b2a1c]/80">{m.map.loadError}</p>
                     <button
                         type="button"
-                        className="rounded-full bg-emerald-600 px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                        className="rounded-full bg-[#b45309] px-5 py-2 text-sm font-semibold text-[#fff7e8] shadow-sm hover:bg-[#92400e] focus:outline-none focus:ring-2 focus:ring-[#d97706]"
                         onClick={() => setRetryKey((key) => key + 1)}
                     >
                         {m.map.retry}

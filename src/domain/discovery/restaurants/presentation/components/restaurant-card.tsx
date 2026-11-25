@@ -17,7 +17,7 @@ const TONES: Record<string, { from: string; to: string }> = {
     restaurant: { from: "#d9b382", to: "#8c5a2b" },
     cafe: { from: "#c9a98b", to: "#6b4a32" },
     fast_food: { from: "#e0c27c", to: "#a7682e" },
-    bar: { from: "#9d86c4", to: "#5f4a86" },
+    bar: { from: "#c99b7b", to: "#8c4a3a" },
 };
 
 export function RestaurantCard({
@@ -33,9 +33,9 @@ export function RestaurantCard({
     const cuisines = restaurant.cuisines.filter(Boolean).join(", ");
 
     return (
-        <article className="flex items-center gap-3 rounded-2xl bg-[#24292c] p-3">
+        <article className="flex items-center gap-3 rounded-2xl bg-[#f2dfbe] p-3">
             <div
-                className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl text-xl font-bold text-white/80"
+                className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl text-xl font-bold text-[#fff7e8]/85"
                 style={{
                     backgroundImage: `linear-gradient(135deg, ${tone.from}, ${tone.to})`,
                 }}
@@ -46,15 +46,15 @@ export function RestaurantCard({
             <div className="min-w-0 flex-1">
                 <Link
                     href={`/restaurant/${restaurant.id}`}
-                    className="truncate text-sm font-semibold text-white underline decoration-transparent hover:decoration-current"
+                    className="truncate text-sm font-semibold text-[#2b1a10] underline decoration-transparent hover:decoration-current"
                 >
                     {restaurant.name}
                 </Link>
-                <p className="mt-1 truncate text-xs text-neutral-400">
+                <p className="mt-1 truncate text-xs text-[#3b2a1c]/65">
                     {category} · {distance} m
                 </p>
                 {cuisines && (
-                    <p className="mt-0.5 truncate text-[11px] text-[#b8d4bb]">{cuisines}</p>
+                    <p className="mt-0.5 truncate text-[11px] text-[#b45309]">{cuisines}</p>
                 )}
             </div>
             {onHowToGetThere && (
@@ -64,8 +64,8 @@ export function RestaurantCard({
                     aria-pressed={routeActive}
                     className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
                         routeActive
-                            ? "bg-[#b8d4bb] text-[#1b1f22]"
-                            : "bg-[#93af96]/20 text-[#b8d4bb] hover:bg-[#93af96]/30"
+                            ? "bg-[#b45309] text-[#fff7e8]"
+                            : "bg-[#b45309]/15 text-[#b45309] hover:bg-[#b45309]/25"
                     }`}
                 >
                     {m.filters.howToGetThere}

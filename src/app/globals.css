@@ -2,4 +2,31 @@
 
 @theme {
     --color-brand-500: #e11d48;
+
+    /* Paleta cálida de FoodMap: misma familia que el cajón de opciones. */
+    --color-food-canvas: #f6e7cc;
+    --color-food-surface: #fbf1df;
+    --color-food-card: #f2dfbe;
+    --color-food-accent: #b45309;
+    --color-food-accent-dark: #92400e;
+    --color-food-ink: #2b1a10;
+}
+
+.results-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #b45309 #f2dfbe;
+}
+
+.results-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.results-scroll::-webkit-scrollbar-track {
+    background: #f2dfbe;
+    border-radius: 9999px;
+}
+
+.results-scroll::-webkit-scrollbar-thumb {
+    background: #b45309;
+    border-radius: 9999px;
 }

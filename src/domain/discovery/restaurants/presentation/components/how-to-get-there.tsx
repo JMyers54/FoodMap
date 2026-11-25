@@ -14,12 +14,12 @@ export function HowToGetThere({ name, lat, lng }: HowToGetThereProps) {
     const webUri = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=18/${lat}/${lng}`;
 
     return (
-        <div className="mt-4 rounded-2xl bg-[#24292c] p-4">
-            <p className="text-sm font-semibold text-white">{m.filters.howToGetThere}</p>
+        <div className="mt-4 rounded-2xl bg-[#f2dfbe] p-4">
+            <p className="text-sm font-semibold text-[#2b1a10]">{m.filters.howToGetThere}</p>
             <div className="mt-2 flex flex-wrap gap-2">
                 <a
                     href={geoUri}
-                    className="rounded-full bg-[#93af96] px-4 py-2 text-xs font-semibold text-[#1b1f22]"
+                    className="rounded-full bg-[#b45309] px-4 py-2 text-xs font-semibold text-[#fff7e8]"
                 >
                     {m.filters.openInMaps}
                 </a>
@@ -27,7 +27,7 @@ export function HowToGetThere({ name, lat, lng }: HowToGetThereProps) {
                     href={webUri}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded-full border border-[#93af96]/40 px-4 py-2 text-xs font-medium text-[#b8d4bb]"
+                    className="rounded-full border border-[#b45309]/35 px-4 py-2 text-xs font-medium text-[#b45309]"
                 >
                     OpenStreetMap
                 </a>

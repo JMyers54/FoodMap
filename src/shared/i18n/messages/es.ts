@@ -5,6 +5,7 @@ export const es = {
             "Usa tu ubicación para mostrarte los restaurantes más cercanos. Solo la pedimos mientras usas la app.",
         button: "Usar mi ubicación",
         searching: "Buscando ubicación…",
+        retry: "Reintentar",
     },
     errors: {
         denied: "No se concedió permiso. Puedes activarlo en el navegador y volver a intentarlo.",
@@ -16,6 +17,14 @@ export const es = {
     },
     search: {
         placeholder: "Buscar restaurantes",
+    },
+    options: {
+        title: "Opciones",
+        open: "Abrir opciones",
+        close: "Cerrar opciones",
+        account: "Mi cuenta",
+        ranking: "Ranking mejor calificados",
+        comingSoon: "Próximamente",
     },
     event: {
         text: "Tienes un evento cerca, para más detalle en",

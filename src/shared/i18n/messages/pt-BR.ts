@@ -7,6 +7,7 @@ export const ptBR = {
             "Usamos sua localização para mostrar os restaurantes mais próximos. Só pedimos enquanto você usa o app.",
         button: "Usar minha localização",
         searching: "Buscando localização…",
+        retry: "Tentar novamente",
     },
     errors: {
         denied: "Permissão não concedida. Ative-a no navegador e tente novamente.",
@@ -18,6 +19,14 @@ export const ptBR = {
     },
     search: {
         placeholder: "Buscar restaurantes",
+    },
+    options: {
+        title: "Opções",
+        open: "Abrir opções",
+        close: "Fechar opções",
+        account: "Minha conta",
+        ranking: "Ranking dos mais bem avaliados",
+        comingSoon: "Em breve",
     },
     event: {
         text: "Há um evento perto, veja mais detalhes em",

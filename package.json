@@ -8,6 +8,7 @@
         "start": "next start",
         "lint": "eslint .",
         "typecheck": "tsc --noEmit",
+        "sync:overpass": "node scripts/sync-overpass.mjs",
         "postinstall": "node -e \"require('node:fs').copyFileSync('node_modules/maplibre-gl/dist/maplibre-gl-worker.mjs','public/maplibre-gl-worker.mjs')\""
     },
     "dependencies": {

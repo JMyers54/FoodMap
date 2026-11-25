@@ -17,6 +17,7 @@ export function GeolocationProvider({ children }: { children: ReactNode }) {
     const [messageKey, setMessageKey] = useState<GeoMessageKey | null>(null);
     const stopWatchingRef = useRef<(() => void) | null>(null);
     const queryPositionRef = useRef<GeoPosition | null>(null);
+    const autoRequestedRef = useRef(false);
 
     const requestLocation = useCallback(() => {
         if (status === "prompt") return;
@@ -57,6 +58,14 @@ export function GeolocationProvider({ children }: { children: ReactNode }) {
             },
         });
     }, [status]);
+
+    // El permiso se pide al abrir la app: no hay botón de ubicación en la interfaz.
+    useEffect(() => {
+        if (status === "idle" && !autoRequestedRef.current) {
+            autoRequestedRef.current = true;
+            requestLocation();
+        }
+    }, [status, requestLocation]);
 
     useEffect(
         () => () => {
