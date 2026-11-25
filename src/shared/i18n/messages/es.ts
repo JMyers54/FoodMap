@@ -60,6 +60,10 @@ export const es = {
         notFound: "No encontramos este local",
         noContact: "Sin datos de contacto",
     },
+    map: {
+        loadError: "No pudimos cargar el mapa. Revisa tu conexión e inténtalo de nuevo.",
+        retry: "Reintentar",
+    },
     categories: {
         restaurant: "Restaurante",
         cafe: "Café",

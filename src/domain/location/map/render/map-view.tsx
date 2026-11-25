@@ -5,9 +5,10 @@ import type {
     Map as MapLibreMap,
     Marker as MapLibreMarker,
 } from "maplibre-gl";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useGeolocation, type GeoPosition } from "@domain/location/gps/provider/geolocation-context";
+import { useI18n } from "@/shared/i18n/provider/locale-provider";
 
 import "maplibre-gl/dist/maplibre-gl.css";
 
@@ -149,11 +150,15 @@ export function MapView({
     const restaurantMarkersRef = useRef<Map<string, MapLibreMarker>>(new Map());
     const restaurantsRef = useRef<MapRestaurant[]>(restaurants);
     const routeRef = useRef<MapRoute | null>(route);
+    const [mapError, setMapError] = useState(false);
+    const [retryKey, setRetryKey] = useState(0);
     const { position } = useGeolocation();
+    const { m } = useI18n();
 
     useEffect(() => {
         let cancelled = false;
         const restaurantMarkers = restaurantMarkersRef.current;
+        setMapError(false);
 
         void (async () => {
             const maplibregl = await import("maplibre-gl");
@@ -172,6 +177,13 @@ export function MapView({
             });
 
             instance.addControl(new maplibregl.NavigationControl(), "top-right");
+            instance.on("error", (event) => {
+                const message = event.error?.message ?? "";
+                // Un fallo de red al traer el estilo o los tiles deja el mapa en blanco.
+                if (/Failed to fetch|AJAXError|NetworkError/i.test(message)) {
+                    setMapError(true);
+                }
+            });
             instance.once("load", () => {
                 // El estilo de OpenFreeMap dibuja sus propios POI (tiendas, colegios, etc.).
                 // Los ocultamos para que el mapa solo muestre nuestros marcadores de restaurantes.
@@ -217,7 +229,7 @@ export function MapView({
             mapRef.current = null;
             maplibreRef.current = null;
         };
-    }, []);
+    }, [retryKey]);
 
     useEffect(() => {
         restaurantsRef.current = restaurants;
@@ -260,5 +272,24 @@ export function MapView({
         }
     }, [position]);
 
-    return <div ref={containerRef} className="h-full w-full" />;
+    return (
+        <div className="relative h-full w-full">
+            <div ref={containerRef} className="h-full w-full" />
+            {mapError ? (
+                <div
+                    className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-white/90 p-6 text-center"
+                    role="alert"
+                >
+                    <p className="max-w-xs text-sm text-slate-700">{m.map.loadError}</p>
+                    <button
+                        type="button"
+                        className="rounded-full bg-emerald-600 px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                        onClick={() => setRetryKey((key) => key + 1)}
+                    >
+                        {m.map.retry}
+                    </button>
+                </div>
+            ) : null}
+        </div>
+    );
 }

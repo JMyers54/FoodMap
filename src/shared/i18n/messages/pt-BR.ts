@@ -62,6 +62,10 @@ export const ptBR = {
         notFound: "Não encontramos este local",
         noContact: "Sem dados de contato",
     },
+    map: {
+        loadError: "Não foi possível carregar o mapa. Verifique sua conexão e tente novamente.",
+        retry: "Tentar novamente",
+    },
     categories: {
         restaurant: "Restaurante",
         cafe: "Café",
