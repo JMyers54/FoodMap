@@ -14,6 +14,7 @@ export type GeoMessageKey = "denied" | "unavailable" | "unsupported";
 export type GeolocationContextValue = {
     status: GeoStatus;
     position: GeoPosition | null;
+    queryPosition: GeoPosition | null;
     messageKey: GeoMessageKey | null;
     requestLocation: () => void;
 };

@@ -5,14 +5,19 @@ export type NearbyRestaurant = {
     name: string;
     type: string;
     cuisines: string[];
+    lat: number;
+    lng: number;
     distanceM: number;
 };
 
-type ListNearbyInput = {
+export type ListNearbyInput = {
     lat: number;
     lng: number;
     radiusM: number;
     limit: number;
+    types?: string[];
+    cuisines?: string[];
+    openNow?: boolean;
 };
 
 export async function listNearbyRestaurants(
@@ -24,6 +29,8 @@ export async function listNearbyRestaurants(
         name: row.nombre,
         type: row.tipo,
         cuisines: row.cocinas,
+        lat: row.lat,
+        lng: row.lng,
         distanceM: row.distancia_m,
     }));
 }

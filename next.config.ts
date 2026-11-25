@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  allowedDevOrigins: ["illustration-grams-voting-covering.trycloudflare.com"],
+  allowedDevOrigins: ["definitions-needle-route-sprint.trycloudflare.com"],
 };
 
 export default nextConfig;

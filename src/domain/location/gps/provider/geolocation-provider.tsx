@@ -1,20 +1,25 @@
 "use client";
 
-import { useCallback, useMemo, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
+import { distanceMeters, watchUserPosition } from "../service/watch-user-position";
 import {
     GeolocationContext,
     type GeoMessageKey,
+    type GeoPosition,
     type GeoStatus,
 } from "./geolocation-context";
 
 export function GeolocationProvider({ children }: { children: ReactNode }) {
     const [status, setStatus] = useState<GeoStatus>("idle");
-    const [position, setPosition] = useState<{ lat: number; lng: number } | null>(null);
+    const [position, setPosition] = useState<GeoPosition | null>(null);
+    const [queryPosition, setQueryPosition] = useState<GeoPosition | null>(null);
     const [messageKey, setMessageKey] = useState<GeoMessageKey | null>(null);
+    const stopWatchingRef = useRef<(() => void) | null>(null);
+    const queryPositionRef = useRef<GeoPosition | null>(null);
 
     const requestLocation = useCallback(() => {
-        if (status === "prompt" || status === "granted") return;
+        if (status === "prompt") return;
 
         if (!("geolocation" in navigator)) {
             setStatus("unavailable");
@@ -22,26 +27,48 @@ export function GeolocationProvider({ children }: { children: ReactNode }) {
             return;
         }
 
+        stopWatchingRef.current?.();
+
         setStatus("prompt");
         setMessageKey(null);
 
-        navigator.geolocation.getCurrentPosition(
-            (coords) => {
-                setPosition({ lat: coords.coords.latitude, lng: coords.coords.longitude });
+        stopWatchingRef.current = watchUserPosition({
+            minDistanceM: 0,
+            minIntervalMs: 0,
+            onPosition: (next) => {
+                setPosition(next);
                 setStatus("granted");
+                setMessageKey(null);
+
+                const last = queryPositionRef.current;
+                if (!last || distanceMeters(last, next) >= 50) {
+                    queryPositionRef.current = next;
+                    setQueryPosition(next);
+                }
             },
-            (error) => {
-                const denied = error.code === 1;
+            onError: (code) => {
+                const denied = code === 1;
                 setStatus(denied ? "denied" : "unavailable");
                 setMessageKey(denied ? "denied" : "unavailable");
+                if (denied) {
+                    stopWatchingRef.current?.();
+                    stopWatchingRef.current = null;
+                }
             },
-            { enableHighAccuracy: true, timeout: 10_000, maximumAge: 60_000 },
-        );
+        });
     }, [status]);
 
+    useEffect(
+        () => () => {
+            stopWatchingRef.current?.();
+            stopWatchingRef.current = null;
+        },
+        [],
+    );
+
     const value = useMemo(
-        () => ({ status, position, messageKey, requestLocation }),
-        [status, position, messageKey, requestLocation],
+        () => ({ status, position, queryPosition, messageKey, requestLocation }),
+        [status, position, queryPosition, messageKey, requestLocation],
     );
 
     return <GeolocationContext.Provider value={value}>{children}</GeolocationContext.Provider>;
